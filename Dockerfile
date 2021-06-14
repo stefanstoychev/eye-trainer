@@ -10,7 +10,11 @@ COPY default.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /usr/src/app/dist /usr/share/nginx/html
 
 LABEL traefik.enable="true" \
-      traefik.http.services.eye-trainer.loadbalancer.server.port="80"
+      traefik.http.services.eye-trainer.loadbalancer.server.port="80" \
+      traefik.http.routers.eye-trainer.rule="Host(`eye-trainer.devfriday.top`)" \
+      traefik.http.routers.eye-trainer.entrypoints="websecure" \
+      traefik.http.routers.eye-trainer.tls="true" \
+      traefik.http.routers.eye-trainer.tls.certresolver="sample"
 
 EXPOSE 80
 
