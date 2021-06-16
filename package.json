@@ -6,8 +6,7 @@
     "serve": "vite preview"
   },
   "devDependencies": {
-    "vite": "^2.3.7",
-    "vite-plugin-pwa": "^0.8.1"
+    "vite": "^2.3.7"
   },
   "dependencies": {
     "three": "^0.129.0"
