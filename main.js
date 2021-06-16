@@ -7,7 +7,8 @@ import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.j
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
 import { MathUtils } from 'three';
-
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import {Object3D} from 'three/src/core/Object3D'
 
 const clock = new THREE.Clock();
 
@@ -19,6 +20,8 @@ let room;
 let controller, controllerGrip;
 let INTERSECTED;
 const tempMatrix = new THREE.Matrix4();
+let controls;
+var helperObject = new Object3D()
 
 init();
 animate();
@@ -34,6 +37,7 @@ function init() {
 	camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 10);
 	camera.position.set(0, 1.6, 3);
 	scene.add(camera);
+
 
 	room = new THREE.LineSegments(
 		new BoxLineGeometry(6, 6, 6, 10, 10, 10).translate(0, 3, 0),
@@ -55,22 +59,12 @@ function init() {
 	object.position.y = 2;
 	object.position.z = 0;
 
-	// object.rotation.x = Math.random() * 2 * Math.PI;
-	// object.rotation.y = Math.random() * 2 * Math.PI;
-	// object.rotation.z = Math.random() * 2 * Math.PI;
-
 	object.scale.x = Math.random() + 0.5;
 	object.scale.y = Math.random() + 0.5;
 	object.scale.z = Math.random() + 0.5;
 
-	object.userData.velocity = new THREE.Vector3();
-	object.userData.velocity.x = 0.05;
-	// object.userData.velocity.y = Math.random() * 0.01 - 0.005;
-	// object.userData.velocity.z = Math.random() * 0.01 - 0.005;
-
-	room.add(object);
-	console.log(object);
-
+	scene.add(helperObject)
+	helperObject.add(object);
 
 	raycaster = new THREE.Raycaster();
 
@@ -80,6 +74,8 @@ function init() {
 	renderer.outputEncoding = THREE.sRGBEncoding;
 	renderer.xr.enabled = true;
 	container.appendChild(renderer.domElement);
+
+	controls = new OrbitControls( camera, renderer.domElement );
 
 	//
 
@@ -171,28 +167,22 @@ function render() {
 
 	const delta = clock.getDelta() * 60;
 
-	// if ( controller.userData.isSelecting === true ) {
+	const cube = helperObject.children[0];
 
-	// 	const cube = room.children[ 0 ];
-	// 	room.remove( cube );
-
-	// 	cube.position.copy( controller.position );
-	// 	cube.userData.velocity.x = ( Math.random() - 0.5 ) * 0.02 * delta;
-	// 	cube.userData.velocity.y = ( Math.random() - 0.5 ) * 0.02 * delta;
-	// 	cube.userData.velocity.z = ( Math.random() * 0.01 - 0.05 ) * delta;
-	// 	cube.userData.velocity.applyQuaternion( controller.quaternion );
-	// 	room.add( cube );
-
-	// }
-
-	// find intersections
-
-	const cube = room.children[0];
 	const speed = 3;
-	cube.position.x = Math.cos(speed * clock.getElapsedTime())
-	cube.position.y = 2 + Math.sin(speed * 2 * clock.getElapsedTime())/2
+	
+	helperObject.position.copy( camera.position );
+	helperObject.rotation.copy( camera.rotation );
+	helperObject.updateMatrix();
+	helperObject.translateZ( - 10 );
 
-	console.log(cube);
+	cube.position.x = Math.cos(speed * clock.getElapsedTime());
+	cube.position.y = Math.sin(speed * 2 * clock.getElapsedTime())/2;
+	cube.position.z = 0;
+
+	cube.updateMatrix();
+
+	console.log(cube.position);
 
 	tempMatrix.identity().extractRotation(controller.matrixWorld);
 
