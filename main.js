@@ -6,9 +6,10 @@ import * as THREE from 'three';
 import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
-import { MathUtils } from 'three';
+import { MathUtils, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import {Object3D} from 'three/src/core/Object3D'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 const clock = new THREE.Clock();
 
@@ -50,6 +51,23 @@ function init() {
 	const light = new THREE.DirectionalLight(0xffffff);
 	light.position.set(1, 1, 1).normalize();
 	scene.add(light);
+
+	const loader = new GLTFLoader();
+
+	loader.load( 'banana.glb', function ( gltf ) {
+		let banana = gltf.scene.children[0];
+		let bananaSize = 0.1;
+		banana.scale.set(bananaSize, bananaSize, bananaSize);
+		banana.position.set(0,0,0);
+		//scene.add( banana );
+		helperObject.children = [];
+		helperObject.add(banana);
+
+	}, undefined, function ( error ) {
+
+		console.error( error );
+
+	} );
 
 	const geometry = new THREE.BoxGeometry(0.15, 0.15, 0.15);
 
@@ -117,6 +135,8 @@ function init() {
 	//
 
 	document.body.appendChild(VRButton.createButton(renderer));
+
+	
 
 }
 
