@@ -54,12 +54,11 @@ function init() {
 
 	const loader = new GLTFLoader();
 
-	loader.load( 'banana.glb', function ( gltf ) {
+	loader.load('banana.glb', function ( gltf ) {
 		let banana = gltf.scene.children[0];
 		let bananaSize = 0.1;
 		banana.scale.set(bananaSize, bananaSize, bananaSize);
 		banana.position.set(0,0,0);
-		//scene.add( banana );
 		helperObject.children = [];
 		helperObject.add(banana);
 
