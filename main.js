@@ -174,7 +174,7 @@ function render() {
 	helperObject.position.copy( camera.position );
 	helperObject.rotation.copy( camera.rotation );
 	helperObject.updateMatrix();
-	helperObject.translateZ( - 10 );
+	helperObject.translateZ( - 2 );
 
 	cube.position.x = Math.cos(speed * clock.getElapsedTime());
 	cube.position.y = Math.sin(speed * 2 * clock.getElapsedTime())/2;
