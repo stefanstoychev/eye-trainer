@@ -14,7 +14,8 @@ LABEL traefik.enable="true" \
       traefik.http.routers.eye-trainer.rule="Host(`eye-trainer.devfriday.top`)" \
       traefik.http.routers.eye-trainer.entrypoints="websecure" \
       traefik.http.routers.eye-trainer.tls="true" \
-      traefik.http.routers.eye-trainer.tls.certresolver="sample"
+      traefik.http.routers.eye-trainer.tls.certresolver="sample" \
+      traefik.http.routers.eye-trainer.middlewares=traefik-forward-auth
 
 EXPOSE 80
 
