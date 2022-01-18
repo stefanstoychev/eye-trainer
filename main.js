@@ -34,7 +34,7 @@ var update_model = false;
 
 const parameters = {
     scale: 0.6,
-    rotationZ: 0
+    rotationX: 0
 };
 
 
@@ -180,7 +180,7 @@ function init() {
 
     const gui = new GUI( { width: 300 } );
     gui.add( parameters, 'scale', 0.0, 1.0, 0.1 ).onChange( onChange );
-    gui.add( parameters, 'rotationZ', 0.0, 360.0, 90 ).onChange( onChange );
+    gui.add( parameters, 'rotationX', 0.0, 360, Math.PI * 2 ).onChange( onChange );
     // gui.add( parameters, 'tube', 0.0, 1.0 ).onChange( onChange );
     // gui.add( parameters, 'tubularSegments', 10, 150, 1 ).onChange( onChange );
     // gui.add( parameters, 'radialSegments', 2, 20, 1 ).onChange( onChange );
@@ -265,7 +265,7 @@ function render() {
         update_model = false;
 
         helperObjectModel.scale.set(parameters.scale, parameters.scale, parameters.scale);
-        helperObjectModel.rotateZ(parameters.rotationZ);
+        helperObjectModel.rotateX(parameters.rotationX);
 
     }
 
