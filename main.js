@@ -11,11 +11,7 @@ import {Object3D} from 'three/src/core/Object3D'
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 import { InteractiveGroup } from 'three/examples/jsm/interactive/InteractiveGroup.js';
-
 import { HTMLMesh } from 'three/examples/jsm/interactive/HTMLMesh.js';
-// import { InteractiveGroup } from './jsm/interactive/InteractiveGroup.js';
-
-
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min';
 
 const clock = new THREE.Clock();
@@ -135,12 +131,14 @@ function init() {
 
     raycaster = new THREE.Raycaster();
 
-    renderer = new THREE.WebGLRenderer({antialias: true});
+    renderer = new THREE.WebGLRenderer({antialias: false});
+    renderer.autoClear = false;
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.outputEncoding = THREE.sRGBEncoding;
     renderer.xr.enabled = true;
     container.appendChild(renderer.domElement);
+
 
     controls = new OrbitControls(camera, renderer.domElement);
 
