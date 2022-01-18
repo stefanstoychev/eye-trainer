@@ -2,8 +2,8 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && vite preview",
-    "serve": "vite preview"
+    "build": "vite build",
+    "serve": "vite build && vite preview"
   },
   "devDependencies": {
     "vite": "^2.7.12"
