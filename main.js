@@ -32,17 +32,18 @@ var helperObject = new Object3D()
 var helperObjectModel = new Object3D()
 var update_model = false;
 
-var parameters;
+var parameters = {
+    scale: 0.6,
+    rotationZ: 0,
+};
+
 
 init();
 animate();
 
 function init() {
 
-    parameters = {
-        scale: 0.6,
-        rotationZ: 0,
-    };
+
     container = document.createElement('div');
     document.body.appendChild(container);
 
