@@ -255,7 +255,7 @@ function render() {
 
     if(update_model) {
         update_model = false;
-        model.geometry.scale.set(parameters.scale, parameters.scale, parameters.scale)
+        model.scale.set(parameters.scale, parameters.scale, parameters.scale)
     }
 
     const cube = helperObject.children[0];
