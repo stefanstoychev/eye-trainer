@@ -2,11 +2,11 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && vite preview",
     "serve": "vite preview"
   },
   "devDependencies": {
-    "vite": "^2.3.7"
+    "vite": "^2.7.12"
   },
   "dependencies": {
     "three": "^0.129.0"

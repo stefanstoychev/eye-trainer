@@ -17,6 +17,7 @@ let container;
 let camera, scene, raycaster, renderer;
 
 let room;
+let mixer;
 
 let controller, controllerGrip;
 let INTERSECTED;
@@ -61,6 +62,50 @@ function init() {
 		banana.position.set(0,0,0);
 		helperObject.children = [];
 		helperObject.add(banana);
+
+	}, undefined, function ( error ) {
+
+		console.error( error );
+
+	} );
+
+	const loader2 = new GLTFLoader();
+
+
+	loader2.load('betty.glb', function ( gltf ) {
+
+		let model = gltf.scene;
+		scene.add( model );
+
+		model.traverse( function ( object ) {
+
+			if ( object.isMesh ) object.castShadow = true;
+
+		} );
+
+		//
+
+		let skeleton = new THREE.SkeletonHelper( model );
+		skeleton.visible = false;
+		scene.add( skeleton );
+
+
+		const animations = gltf.animations;
+
+		mixer = new THREE.AnimationMixer( model );
+		let idleAction = mixer.clipAction( animations[ 0 ] );
+
+		idleAction.play();
+
+		// idleAction = mixer.clipAction( animations[ 0 ] );
+		// walkAction = mixer.clipAction( animations[ 3 ] );
+		// runAction = mixer.clipAction( animations[ 1 ] );
+		//
+		// actions = [ idleAction, walkAction, runAction ];
+		//
+		// activateAllActions();
+
+		// animate();
 
 	}, undefined, function ( error ) {
 
@@ -186,6 +231,13 @@ function render() {
 
 	const delta = clock.getDelta() * 60;
 
+	// Update the mixer on each frame
+
+	if(mixer) {
+		mixer.update(delta/ 60);
+		//console.log(mixer)
+	}
+
 	const cube = helperObject.children[0];
 
 	const speed = 3;
@@ -201,7 +253,7 @@ function render() {
 
 	cube.updateMatrix();
 
-	console.log(cube.position);
+	//console.log(cube.position);
 
 	tempMatrix.identity().extractRotation(controller.matrixWorld);
 
