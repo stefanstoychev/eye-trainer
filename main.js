@@ -32,11 +32,10 @@ var helperObject = new Object3D()
 var helperObjectModel = new Object3D()
 var update_model = false;
 
-var parameters = {
-    scale: 0.6,
-    rotationZ: 0,
-};
 
+// var scale = 0.6;
+// var rotationZ = 0;
+//
 
 init();
 animate();
@@ -179,8 +178,8 @@ function init() {
     }
 
     const gui = new GUI( { width: 300 } );
-    gui.add( parameters, 'scale', 0.0, 1.0, 0.1 ).onChange( onChange );
-    gui.add( parameters, 'rotationZ', 0.0, 360.0, 90 ).onChange( onChange );
+    gui.add( helperObjectModel, 'scale', 0.0, 1.0, 0.1 ).onChange( onChange );
+    // gui.add( parameters, 'rotationZ', 0.0, 360.0, 90 ).onChange( onChange );
     // gui.add( parameters, 'tube', 0.0, 1.0 ).onChange( onChange );
     // gui.add( parameters, 'tubularSegments', 10, 150, 1 ).onChange( onChange );
     // gui.add( parameters, 'radialSegments', 2, 20, 1 ).onChange( onChange );
@@ -261,13 +260,13 @@ function render() {
     }
 
 
-    if(update_model) {
-        update_model = false;
-
-        helperObjectModel.scale.set(parameters.scale, parameters.scale, parameters.scale);
-        helperObjectModel.scale.rotateZ(parameters.rotationZ);
-
-    }
+    // if(update_model) {
+    //     update_model = false;
+    //
+    //     helperObjectModel.scale.set(scale, scale, scale);
+    //     helperObjectModel.scale.rotateZ(rotationZ);
+    //
+    // }
 
     const cube = helperObject.children[0];
 
