@@ -172,7 +172,7 @@ function init() {
     }
 
     const gui = new GUI( { width: 300 } );
-    gui.add( parameters, 'scale', 0.0, 100.0 ).onChange( onChange );
+    gui.add( parameters, 'scale', 0.0, 1.0, 0.1 ).onChange( onChange );
     // gui.add( parameters, 'tube', 0.0, 1.0 ).onChange( onChange );
     // gui.add( parameters, 'tubularSegments', 10, 150, 1 ).onChange( onChange );
     // gui.add( parameters, 'radialSegments', 2, 20, 1 ).onChange( onChange );
@@ -255,7 +255,7 @@ function render() {
 
     if(update_model) {
         update_model = false;
-        model.geometry.scale = new THREE.Vector3(parameters.scale, parameters.scale, parameters.scale);
+        model.geometry.scale.set(parameters.scale, parameters.scale, parameters.scale)
     }
 
     const cube = helperObject.children[0];
