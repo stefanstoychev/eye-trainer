@@ -10,12 +10,22 @@ import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import {Object3D} from 'three/src/core/Object3D'
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 
+import { InteractiveGroup } from 'three/examples/jsm/interactive/InteractiveGroup.js';
+
+import { HTMLMesh } from 'three/examples/jsm/interactive/HTMLMesh.js';
+// import { InteractiveGroup } from './jsm/interactive/InteractiveGroup.js';
+
+
+import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min';
+
 const clock = new THREE.Clock();
 
 let container;
 let camera, scene, raycaster, renderer;
 
 let room;
+
+let model;
 let mixer;
 
 let controller, controllerGrip;
@@ -23,6 +33,16 @@ let INTERSECTED;
 const tempMatrix = new THREE.Matrix4();
 let controls;
 var helperObject = new Object3D()
+
+const parameters = {
+    scale: 0.6
+    // tube: 0.2,
+    // tubularSegments: 150,
+    // radialSegments: 20,
+    // p: 2,
+    // q: 3,
+    // thickness: 0.5
+};
 
 init();
 animate();
@@ -161,7 +181,35 @@ function init() {
 
     window.addEventListener('resize', onWindowResize);
 
-    //
+
+    function onChange() {
+
+        model.geometry.scale.x = parameters.scale;
+        model.geometry.scale.y = parameters.scale;
+        model.geometry.scale.z = parameters.scale;
+
+    }
+
+    const gui = new GUI( { width: 300 } );
+    gui.add( parameters, 'scale', 0.0, 100.0 ).onChange( onChange );
+    // gui.add( parameters, 'tube', 0.0, 1.0 ).onChange( onChange );
+    // gui.add( parameters, 'tubularSegments', 10, 150, 1 ).onChange( onChange );
+    // gui.add( parameters, 'radialSegments', 2, 20, 1 ).onChange( onChange );
+    // gui.add( parameters, 'p', 1, 10, 1 ).onChange( onChange );
+    // gui.add( parameters, 'q', 0, 10, 1 ).onChange( onChange );
+    // gui.add( parameters, 'thickness', 0, 1 ).onChange( onThicknessChange );
+    gui.domElement.style.visibility = 'hidden';
+
+    const group = new InteractiveGroup( renderer, camera );
+    scene.add( group );
+
+    const mesh = new HTMLMesh( gui.domElement );
+    mesh.position.x = - 0.75;
+    mesh.position.y = 1.5;
+    mesh.position.z = - 0.5;
+    mesh.rotation.y = Math.PI / 4;
+    mesh.scale.setScalar( 2 );
+    group.add( mesh );
 
     document.body.appendChild(VRButton.createButton(renderer));
 
@@ -171,6 +219,8 @@ function init() {
 function buildController(data) {
 
     let geometry, material;
+
+    console.log(geometry);
 
     switch (data.targetRayMode) {
 
