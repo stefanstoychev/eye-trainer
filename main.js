@@ -29,6 +29,7 @@ let INTERSECTED;
 const tempMatrix = new THREE.Matrix4();
 // let controls;
 var helperObject = new Object3D()
+var update_model = false;
 
 const parameters = {
     scale: 0.6
@@ -166,10 +167,7 @@ function init() {
 
 
     function onChange() {
-
-        model.geometry.scale.x = parameters.scale;
-        model.geometry.scale.y = parameters.scale;
-        model.geometry.scale.z = parameters.scale;
+        update_model = true;
 
     }
 
@@ -252,6 +250,14 @@ function render() {
 
     if (mixer) {
         mixer.update(delta / 60);
+    }
+
+
+    if(update_model) {
+        update_model = false;
+        model.geometry.scale.x = parameters.scale;
+        model.geometry.scale.y = parameters.scale;
+        model.geometry.scale.z = parameters.scale;
     }
 
     const cube = helperObject.children[0];
