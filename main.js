@@ -32,12 +32,6 @@ var helperObject = new Object3D()
 
 const parameters = {
     scale: 0.6
-    // tube: 0.2,
-    // tubularSegments: 150,
-    // radialSegments: 20,
-    // p: 2,
-    // q: 3,
-    // thickness: 0.5
 };
 
 init();
@@ -70,19 +64,19 @@ function init() {
 
     const loader = new GLTFLoader();
 
-    loader.load('banana.glb', function (gltf) {
-        let banana = gltf.scene.children[0];
-        let bananaSize = 0.1;
-        banana.scale.set(bananaSize, bananaSize, bananaSize);
-        banana.position.set(0, 0, 0);
-        helperObject.children = [];
-        helperObject.add(banana);
-
-    }, undefined, function (error) {
-
-        console.error(error);
-
-    });
+    // loader.load('banana.glb', function (gltf) {
+    //     let banana = gltf.scene.children[0];
+    //     let bananaSize = 0.1;
+    //     banana.scale.set(bananaSize, bananaSize, bananaSize);
+    //     banana.position.set(0, 0, 0);
+    //     helperObject.children = [];
+    //     helperObject.add(banana);
+    //
+    // }, undefined, function (error) {
+    //
+    //     console.error(error);
+    //
+    // });
 
     const loader2 = new GLTFLoader();
 
@@ -173,9 +167,9 @@ function init() {
 
     function onChange() {
 
-        model.geometry.scale.x = parameters.scale;
-        model.geometry.scale.y = parameters.scale;
-        model.geometry.scale.z = parameters.scale;
+        // model.geometry.scale.x = parameters.scale;
+        // model.geometry.scale.y = parameters.scale;
+        // model.geometry.scale.z = parameters.scale;
 
     }
 
