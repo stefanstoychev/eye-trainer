@@ -144,40 +144,31 @@ function init() {
 
     controls = new OrbitControls(camera, renderer.domElement);
 
+    const geometry2 = new THREE.BufferGeometry();
+    geometry2.setFromPoints( [ new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, 0, - 5 ) ] );
+
     //
+    const controller1 = renderer.xr.getController( 0 );
+    controller1.add( new THREE.Line( geometry2 ) );
+    scene.add( controller1 );
 
-    function onSelectStart() {
+    controller = controller1;
 
-        this.userData.isSelecting = true;
+    const controller2 = renderer.xr.getController( 1 );
+    controller2.add( new THREE.Line( geometry2 ) );
+    scene.add( controller2 );
 
-    }
-
-    function onSelectEnd() {
-
-        this.userData.isSelecting = false;
-
-    }
-
-    controller = renderer.xr.getController(0);
-    controller.addEventListener('selectstart', onSelectStart);
-    controller.addEventListener('selectend', onSelectEnd);
-    controller.addEventListener('connected', function (event) {
-
-        this.add(buildController(event.data));
-
-    });
-    controller.addEventListener('disconnected', function () {
-
-        this.remove(this.children[0]);
-
-    });
-    scene.add(controller);
+    //
 
     const controllerModelFactory = new XRControllerModelFactory();
 
-    controllerGrip = renderer.xr.getControllerGrip(0);
-    controllerGrip.add(controllerModelFactory.createControllerModel(controllerGrip));
-    scene.add(controllerGrip);
+    const controllerGrip1 = renderer.xr.getControllerGrip( 0 );
+    controllerGrip1.add( controllerModelFactory.createControllerModel( controllerGrip1 ) );
+    scene.add( controllerGrip1 );
+
+    const controllerGrip2 = renderer.xr.getControllerGrip( 1 );
+    controllerGrip2.add( controllerModelFactory.createControllerModel( controllerGrip2 ) );
+    scene.add( controllerGrip2 );
 
     window.addEventListener('resize', onWindowResize);
 
