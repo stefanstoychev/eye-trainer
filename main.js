@@ -10,6 +10,8 @@ import {XRControllerModelFactory} from 'three/examples/jsm/webxr/XRControllerMod
 import {Object3D} from 'three/src/core/Object3D'
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 
+import { VRMLoader } from 'three/examples/jsm/loaders/VRMLoader.js';
+
 import {InteractiveGroup} from 'three/examples/jsm/interactive/InteractiveGroup.js';
 import {HTMLMesh} from 'three/examples/jsm/interactive/HTMLMesh.js';
 import {GUI} from 'three/examples/jsm/libs/lil-gui.module.min';
@@ -92,6 +94,9 @@ function init() {
 
         helperObjectModel.add(model)
 
+        helperObjectModel.translateX(10);
+        helperObjectModel.translateY(10);
+
         scene.add(helperObjectModel);
 
         model.traverse(function (object) {
@@ -115,6 +120,47 @@ function init() {
         console.error(error);
 
     });
+
+
+    // model
+    const loader3 = new VRMLoader();
+    loader3.load( 'Amber.vrm', function ( vrm ) {
+
+        // VRMLoader doesn't support VRM Unlit extension yet so
+        // converting all materials to THREE.MeshBasicMaterial here as workaround so far.
+        vrm.scene.traverse( function ( object ) {
+
+            if ( object.material ) {
+
+                if ( Array.isArray( object.material ) ) {
+
+                    for ( let i = 0, il = object.material.length; i < il; i ++ ) {
+
+                        const material = new THREE.MeshBasicMaterial();
+                        THREE.Material.prototype.copy.call( material, object.material[ i ] );
+                        material.color.copy( object.material[ i ].color );
+                        material.map = object.material[ i ].map;
+                        object.material[ i ] = material;
+
+                    }
+
+                } else {
+
+                    const material = new THREE.MeshBasicMaterial();
+                    THREE.Material.prototype.copy.call( material, object.material );
+                    material.color.copy( object.material.color );
+                    material.map = object.material.map;
+                    object.material = material;
+
+                }
+
+            }
+
+        } );
+
+        scene.add( vrm.scene );
+
+    } );
 
     const geometry = new THREE.BoxGeometry(0.15, 0.15, 0.15);
 
