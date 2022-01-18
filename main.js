@@ -167,9 +167,9 @@ function init() {
 
     function onChange() {
 
-        // model.geometry.scale.x = parameters.scale;
-        // model.geometry.scale.y = parameters.scale;
-        // model.geometry.scale.z = parameters.scale;
+        model.geometry.scale.x = parameters.scale;
+        model.geometry.scale.y = parameters.scale;
+        model.geometry.scale.z = parameters.scale;
 
     }
 
