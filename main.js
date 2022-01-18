@@ -6,7 +6,7 @@ import * as THREE from 'three';
 import {BoxLineGeometry} from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 import {VRButton} from 'three/examples/jsm/webxr/VRButton.js';
 import {XRControllerModelFactory} from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
-import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
+// import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import {Object3D} from 'three/src/core/Object3D'
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 
@@ -27,7 +27,7 @@ let mixer;
 let controller, controllerGrip;
 let INTERSECTED;
 const tempMatrix = new THREE.Matrix4();
-let controls;
+// let controls;
 var helperObject = new Object3D()
 
 const parameters = {
@@ -140,7 +140,7 @@ function init() {
     container.appendChild(renderer.domElement);
 
 
-    controls = new OrbitControls(camera, renderer.domElement);
+    //controls = new OrbitControls(camera, renderer.domElement);
 
     const geometry2 = new THREE.BufferGeometry();
     geometry2.setFromPoints( [ new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, 0, - 5 ) ] );
