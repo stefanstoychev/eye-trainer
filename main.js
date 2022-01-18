@@ -10,9 +10,9 @@ import {XRControllerModelFactory} from 'three/examples/jsm/webxr/XRControllerMod
 import {Object3D} from 'three/src/core/Object3D'
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-import { InteractiveGroup } from 'three/examples/jsm/interactive/InteractiveGroup.js';
-import { HTMLMesh } from 'three/examples/jsm/interactive/HTMLMesh.js';
-import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min';
+import {InteractiveGroup} from 'three/examples/jsm/interactive/InteractiveGroup.js';
+import {HTMLMesh} from 'three/examples/jsm/interactive/HTMLMesh.js';
+import {GUI} from 'three/examples/jsm/libs/lil-gui.module.min';
 
 const clock = new THREE.Clock();
 
@@ -255,9 +255,7 @@ function render() {
 
     if(update_model) {
         update_model = false;
-        model.geometry.scale.x = parameters.scale;
-        model.geometry.scale.y = parameters.scale;
-        model.geometry.scale.z = parameters.scale;
+        model.geometry.scale = new THREE.Vector3(parameters.scale, parameters.scale, parameters.scale);
     }
 
     const cube = helperObject.children[0];
