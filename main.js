@@ -31,15 +31,16 @@ const tempMatrix = new THREE.Matrix4();
 var helperObject = new Object3D()
 var update_model = false;
 
-const parameters = {
-    scale: 0.6
-};
+var parameters;
 
 init();
 animate();
 
 function init() {
 
+    parameters = {
+        scale: 0.6
+    };
     container = document.createElement('div');
     document.body.appendChild(container);
 
@@ -255,7 +256,7 @@ function render() {
 
     if(update_model) {
         update_model = false;
-        model.scale.set(parameters.scale, parameters.scale, parameters.scale)
+        model.mesh.scale.set(0.1, 0.1, 0.1)
     }
 
     const cube = helperObject.children[0];
