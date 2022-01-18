@@ -40,7 +40,8 @@ animate();
 function init() {
 
     parameters = {
-        scale: 0.6
+        scale: 0.6,
+        rotationZ: 0,
     };
     container = document.createElement('div');
     document.body.appendChild(container);
@@ -178,6 +179,7 @@ function init() {
 
     const gui = new GUI( { width: 300 } );
     gui.add( parameters, 'scale', 0.0, 1.0, 0.1 ).onChange( onChange );
+    gui.add( parameters, 'rotationZ', 0.0, 360.0, 90 ).onChange( onChange );
     // gui.add( parameters, 'tube', 0.0, 1.0 ).onChange( onChange );
     // gui.add( parameters, 'tubularSegments', 10, 150, 1 ).onChange( onChange );
     // gui.add( parameters, 'radialSegments', 2, 20, 1 ).onChange( onChange );
@@ -260,7 +262,10 @@ function render() {
 
     if(update_model) {
         update_model = false;
-        helperObjectModel.scale.set(0.1, 0.1, 0.1)
+
+        helperObjectModel.scale.set(parameters.scale, parameters.scale, parameters.scale);
+        helperObjectModel.scale.rotateZ(parameters.rotationZ);
+
     }
 
     const cube = helperObject.children[0];
