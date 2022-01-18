@@ -94,8 +94,8 @@ function init() {
 
         helperObjectModel.add(model)
 
-        helperObjectModel.translateX(10);
-        helperObjectModel.translateY(10);
+        helperObjectModel.translateX(1);
+        // helperObjectModel.translateY(1);
 
         scene.add(helperObjectModel);
 
