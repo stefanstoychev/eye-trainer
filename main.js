@@ -29,6 +29,7 @@ let INTERSECTED;
 const tempMatrix = new THREE.Matrix4();
 // let controls;
 var helperObject = new Object3D()
+var helperObjectModel = new Object3D()
 var update_model = false;
 
 var parameters;
@@ -86,7 +87,10 @@ function init() {
     loader2.load('betty.glb', function (gltf) {
 
         let model = gltf.scene;
-        scene.add(model);
+
+        helperObjectModel.add(model)
+
+        scene.add(helperObjectModel);
 
         model.traverse(function (object) {
             if (object.isMesh) object.castShadow = true;
@@ -256,7 +260,7 @@ function render() {
 
     if(update_model) {
         update_model = false;
-        model.mesh.scale.set(0.1, 0.1, 0.1)
+        helperObjectModel.scale.set(0.1, 0.1, 0.1)
     }
 
     const cube = helperObject.children[0];
