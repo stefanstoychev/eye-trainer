@@ -265,7 +265,7 @@ function render() {
         update_model = false;
 
         helperObjectModel.scale.set(parameters.scale, parameters.scale, parameters.scale);
-        //helperObjectModel.scale.rotateZ(parameters.rotationZ);
+        helperObjectModel.rotateZ(parameters.rotationZ);
 
     }
 
