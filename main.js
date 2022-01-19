@@ -6,7 +6,7 @@ import * as THREE from 'three';
 import {BoxLineGeometry} from 'three/examples/jsm/geometries/BoxLineGeometry.js';
 import {VRButton} from 'three/examples/jsm/webxr/VRButton.js';
 import {XRControllerModelFactory} from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
-// import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
+import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import {Object3D} from 'three/src/core/Object3D'
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 
@@ -29,7 +29,7 @@ let mixer;
 let controller, controllerGrip;
 let INTERSECTED;
 const tempMatrix = new THREE.Matrix4();
-// let controls;
+let controls;
 var helperObject = new Object3D()
 var helperObjectModel = new Object3D()
 var update_model = false;
@@ -192,7 +192,7 @@ function init() {
     container.appendChild(renderer.domElement);
 
 
-    //controls = new OrbitControls(camera, renderer.domElement);
+    controls = new OrbitControls(camera, renderer.domElement);
 
     const geometry2 = new THREE.BufferGeometry();
     geometry2.setFromPoints( [ new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, 0, - 5 ) ] );
@@ -208,24 +208,8 @@ function init() {
     controller2.add( new THREE.Line( geometry2 ) );
     scene.add( controller2 );
 
-    //
-
-    const controllerModelFactory = new XRControllerModelFactory();
-
-    const controllerGrip1 = renderer.xr.getControllerGrip( 0 );
-    controllerGrip1.add( controllerModelFactory.createControllerModel( controllerGrip1 ) );
-    scene.add( controllerGrip1 );
-
-    const controllerGrip2 = renderer.xr.getControllerGrip( 1 );
-    controllerGrip2.add( controllerModelFactory.createControllerModel( controllerGrip2 ) );
-    scene.add( controllerGrip2 );
-
-    window.addEventListener('resize', onWindowResize);
-
-
     function onChange() {
         update_model = true;
-
     }
 
     const gui = new GUI( { width: 300 } );
@@ -242,7 +226,6 @@ function init() {
     gui.domElement.style.visibility = 'hidden';
 
     const group = new InteractiveGroup( renderer, camera );
-    scene.add( group );
 
     const mesh = new HTMLMesh( gui.domElement );
     mesh.position.x = - 0.75;
@@ -250,7 +233,25 @@ function init() {
     mesh.position.z = - 0.5;
     mesh.rotation.y = Math.PI / 4;
     mesh.scale.setScalar( 2 );
-    group.add( mesh );
+    group.add(mesh);
+
+    //scene.add( group );
+
+    const controllerModelFactory = new XRControllerModelFactory();
+
+    const controllerGrip1 = renderer.xr.getControllerGrip( 0 );
+    controllerGrip1.add( controllerModelFactory.createControllerModel( controllerGrip1 ) );
+    scene.add( controllerGrip1 );
+
+    const controllerGrip2 = renderer.xr.getControllerGrip( 1 );
+    controllerGrip2.add( controllerModelFactory.createControllerModel( controllerGrip2 ) );
+    controllerGrip2.add( group );
+    scene.add( controllerGrip2 );
+
+    window.addEventListener('resize', onWindowResize);
+
+
+
 
     document.body.appendChild(VRButton.createButton(renderer));
 
