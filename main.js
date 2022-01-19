@@ -90,38 +90,38 @@ function init() {
     const loader2 = new GLTFLoader();
 
 
-    loader2.load('Amber+Animation.glb', function (gltf) {
-
-        let model = gltf.scene;
-
-        helperObjectModel.add(model)
-
-        helperObjectModel.translateX(1);
-        // helperObjectModel.translateY(1);
-
-        scene.add(helperObjectModel);
-
-        model.traverse(function (object) {
-            if (object.isMesh) object.castShadow = true;
-        });
-
-
-        let skeleton = new THREE.SkeletonHelper(model);
-        skeleton.visible = false;
-        scene.add(skeleton);
-
-        const animations = gltf.animations;
-
-        mixer = new THREE.AnimationMixer(model);
-        let idleAction = mixer.clipAction(animations[0]);
-
-        idleAction.play();
-
-    }, undefined, function (error) {
-
-        console.error(error);
-
-    });
+    // loader2.load('Amber+Animation.glb', function (gltf) {
+    //
+    //     let model = gltf.scene;
+    //
+    //     helperObjectModel.add(model)
+    //
+    //     //helperObjectModel.translateX(1);
+    //     // helperObjectModel.translateY(1);
+    //
+    //     scene.add(helperObjectModel);
+    //
+    //     model.traverse(function (object) {
+    //         if (object.isMesh) object.castShadow = true;
+    //     });
+    //
+    //
+    //     let skeleton = new THREE.SkeletonHelper(model);
+    //     skeleton.visible = false;
+    //     scene.add(skeleton);
+    //
+    //     const animations = gltf.animations;
+    //
+    //     mixer = new THREE.AnimationMixer(model);
+    //     let idleAction = mixer.clipAction(animations[0]);
+    //
+    //     idleAction.play();
+    //
+    // }, undefined, function (error) {
+    //
+    //     console.error(error);
+    //
+    // });
 
 
     // model
@@ -214,9 +214,9 @@ function init() {
 
     const gui = new GUI( { width: 300 } );
     gui.add( parameters, 'scale', 0.0, 1.0, 0.1 ).onChange( onChange );
-    gui.add( parameters, 'rotationX', 0.0, Math.PI * 2 ).onChange( onChange );
-    gui.add( parameters, 'rotationY', 0.0, Math.PI * 2 ).onChange( onChange );
-    gui.add( parameters, 'rotationZ', 0.0, Math.PI * 2 ).onChange( onChange );
+    gui.add( parameters, 'rotationX', 0.0, Math.PI * 2.0, Math.PI / 4.0 ).onChange( onChange );
+    gui.add( parameters, 'rotationY', 0.0, Math.PI * 2.0, Math.PI / 4.0).onChange( onChange );
+    gui.add( parameters, 'rotationZ', 0.0, Math.PI * 2.0,  Math.PI / 4.0).onChange( onChange );
     // gui.add( parameters, 'tube', 0.0, 1.0 ).onChange( onChange );
     // gui.add( parameters, 'tubularSegments', 10, 150, 1 ).onChange( onChange );
     // gui.add( parameters, 'radialSegments', 2, 20, 1 ).onChange( onChange );
@@ -228,11 +228,12 @@ function init() {
     const group = new InteractiveGroup( renderer, camera );
 
     const mesh = new HTMLMesh( gui.domElement );
-    mesh.position.x = - 0.75;
-    mesh.position.y = 1.5;
-    mesh.position.z = - 0.5;
-    mesh.rotation.y = Math.PI / 4;
-    mesh.scale.setScalar( 2 );
+    mesh.position.x = 0;
+    mesh.position.y = 0;
+    mesh.position.z = 0;
+    mesh.rotation.x = - Math.PI / 4;
+    mesh.rotation.z = - Math.PI / 4;
+    //mesh.scale.setScalar( 2 );
     group.add(mesh);
 
     //scene.add( group );
@@ -241,17 +242,14 @@ function init() {
 
     const controllerGrip1 = renderer.xr.getControllerGrip( 0 );
     controllerGrip1.add( controllerModelFactory.createControllerModel( controllerGrip1 ) );
+    controllerGrip1.add( group );
     scene.add( controllerGrip1 );
 
     const controllerGrip2 = renderer.xr.getControllerGrip( 1 );
     controllerGrip2.add( controllerModelFactory.createControllerModel( controllerGrip2 ) );
-    controllerGrip2.add( group );
     scene.add( controllerGrip2 );
 
     window.addEventListener('resize', onWindowResize);
-
-
-
 
     document.body.appendChild(VRButton.createButton(renderer));
 
@@ -318,9 +316,10 @@ function render() {
         update_model = false;
 
         helperObjectModel.scale.set(parameters.scale, parameters.scale, parameters.scale);
-        helperObjectModel.rotateX(parameters.rotationX);
-        helperObjectModel.rotateY(parameters.rotationY);
-        helperObjectModel.rotateZ(parameters.rotationZ);
+        helperObjectModel.rotation.setFromVector3(new THREE.Vector3( parameters.rotationX, parameters.rotationY, parameters.rotationX));
+        // helperObjectModel.rotateX(parameters.rotationX);
+        // helperObjectModel.rotateY(parameters.rotationY);
+        // helperObjectModel.rotateZ(parameters.rotationZ);
 
     }
 
