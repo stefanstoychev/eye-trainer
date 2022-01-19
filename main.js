@@ -90,7 +90,7 @@ function init() {
     const loader2 = new GLTFLoader();
 
 
-    loader2.load('betty.glb', function (gltf) {
+    loader2.load('Amber+Animation.glb', function (gltf) {
 
         let model = gltf.scene;
 
