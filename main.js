@@ -90,38 +90,39 @@ function init() {
     const loader2 = new GLTFLoader();
 
 
-    // loader2.load('Amber+Animation.glb', function (gltf) {
-    //
-    //     let model = gltf.scene;
-    //
-    //     helperObjectModel.add(model)
-    //
-    //     //helperObjectModel.translateX(1);
-    //     // helperObjectModel.translateY(1);
-    //
-    //     scene.add(helperObjectModel);
-    //
-    //     model.traverse(function (object) {
-    //         if (object.isMesh) object.castShadow = true;
-    //     });
-    //
-    //
-    //     let skeleton = new THREE.SkeletonHelper(model);
-    //     skeleton.visible = false;
-    //     scene.add(skeleton);
-    //
-    //     const animations = gltf.animations;
-    //
-    //     mixer = new THREE.AnimationMixer(model);
-    //     let idleAction = mixer.clipAction(animations[0]);
-    //
-    //     idleAction.play();
-    //
-    // }, undefined, function (error) {
-    //
-    //     console.error(error);
-    //
-    // });
+    loader2.load('betty.glb', function (gltf) {
+
+        let model = gltf.scene;
+
+        helperObjectModel.add(model)
+
+        helperObjectModel.scale.set(1, 1, 1);
+        helperObjectModel.translateX(1);
+        // helperObjectModel.translateY(1);
+
+        scene.add(helperObjectModel);
+
+        model.traverse(function (object) {
+            if (object.isMesh) object.castShadow = true;
+        });
+
+
+        let skeleton = new THREE.SkeletonHelper(model);
+        skeleton.visible = false;
+        scene.add(skeleton);
+
+        const animations = gltf.animations;
+
+        mixer = new THREE.AnimationMixer(model);
+        let idleAction = mixer.clipAction(animations[0]);
+
+        idleAction.play();
+
+    }, undefined, function (error) {
+
+        console.error(error);
+
+    });
 
 
     // model
