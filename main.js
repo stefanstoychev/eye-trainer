@@ -34,7 +34,10 @@ var helperObject = new Object3D()
 var helperObjectModel = new Object3D()
 var update_model = false;
 
+let dynamicalyLoaded;
+
 const parameters = {
+    model: "https://ipfs.io/ipfs/QmcmfjHuVia9s41UaXg7Kx1KG3qJ4kU9a74ckNq1T5FDxV",
     scale: 0.6,
     rotationX: 0,
     rotationY: 0,
@@ -71,24 +74,7 @@ function init() {
     light.position.set(1, 1, 1).normalize();
     scene.add(light);
 
-    const loader = new GLTFLoader();
-
-    // loader.load('banana.glb', function (gltf) {
-    //     let banana = gltf.scene.children[0];
-    //     let bananaSize = 0.1;
-    //     banana.scale.set(bananaSize, bananaSize, bananaSize);
-    //     banana.position.set(0, 0, 0);
-    //     helperObject.children = [];
-    //     helperObject.add(banana);
-    //
-    // }, undefined, function (error) {
-    //
-    //     console.error(error);
-    //
-    // });
-
     const loader2 = new GLTFLoader();
-
 
     loader2.load('betty.glb', function (gltf) {
 
@@ -97,7 +83,10 @@ function init() {
         helperObjectModel.add(model)
 
         helperObjectModel.scale.set(1, 1, 1);
-        helperObjectModel.translateX(1);
+        helperObjectModel.translateX(3);
+
+        helperObjectModel.rotateY(180);
+
         // helperObjectModel.translateY(1);
 
         scene.add(helperObjectModel);
@@ -126,61 +115,21 @@ function init() {
 
 
     // model
-    const loader3 = new VRMLoader();
-    loader3.load( 'Amber.vrm', function ( vrm ) {
 
-        // VRMLoader doesn't support VRM Unlit extension yet so
-        // converting all materials to THREE.MeshBasicMaterial here as workaround so far.
-        vrm.scene.traverse( function ( object ) {
+    //const geometry = new THREE.BoxGeometry(0.15, 0.15, 0.15);
 
-            if ( object.material ) {
-
-                if ( Array.isArray( object.material ) ) {
-
-                    for ( let i = 0, il = object.material.length; i < il; i ++ ) {
-
-                        const material = new THREE.MeshBasicMaterial();
-                        THREE.Material.prototype.copy.call( material, object.material[ i ] );
-                        material.color.copy( object.material[ i ].color );
-                        material.map = object.material[ i ].map;
-                        object.material[ i ] = material;
-
-                    }
-
-                } else {
-
-                    const material = new THREE.MeshBasicMaterial();
-                    THREE.Material.prototype.copy.call( material, object.material );
-                    material.color.copy( object.material.color );
-                    material.map = object.material.map;
-                    object.material = material;
-
-                }
-
-            }
-
-        } );
-
-        console.log(vrm.scene);
-
-        scene.add( vrm.scene );
-
-    } );
-
-    const geometry = new THREE.BoxGeometry(0.15, 0.15, 0.15);
-
-    const object = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({color: Math.random() * 0xffffff}));
-
-    object.position.x = 0;
-    object.position.y = 2;
-    object.position.z = 0;
-
-    object.scale.x = Math.random() + 0.5;
-    object.scale.y = Math.random() + 0.5;
-    object.scale.z = Math.random() + 0.5;
-
-    scene.add(helperObject)
-    helperObject.add(object);
+    // const object = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({color: Math.random() * 0xffffff}));
+    //
+    // object.position.x = 0;
+    // object.position.y = 2;
+    // object.position.z = 0;
+    //
+    // object.scale.x = Math.random() + 0.5;
+    // object.scale.y = Math.random() + 0.5;
+    // object.scale.z = Math.random() + 0.5;
+    //
+    // scene.add(helperObject)
+    // helperObject.add(object);
 
     raycaster = new THREE.Raycaster();
 
@@ -214,6 +163,80 @@ function init() {
     }
 
     const gui = new GUI( { width: 300 } );
+    const barDirection =
+        gui.add(parameters,'model',
+            ['Adriana.vrm https://ipfs.io/ipfs/QmcmfjHuVia9s41UaXg7Kx1KG3qJ4kU9a74ckNq1T5FDxV',
+                'Adam.vrm https://ipfs.io/ipfs/QmWyjegPNX5oYgvh2rTSCAPNddR69WPa4omg5oVLymsMBB',
+                'Sunshine.vrm https://ipfs.io/ipfs/QmYn7fji6Ztn5RmMqMz1AZTHL6qP8Gm2oiGBMG8VNGXUfM',
+                'Cloud.vrm https://ipfs.io/ipfs/QmebwZqpY6AR4Q2qjziLk2cpHeKFueue4S2tnkpo8hnrPH'])
+            .name('Model')
+            .listen()
+    barDirection.onChange(
+        function(newValue) {
+
+            if(dynamicalyLoaded !== undefined)
+                scene.remove(dynamicalyLoaded);
+
+            const geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+
+
+            dynamicalyLoaded = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({color: Math.random() * 0xffffff}));;
+            dynamicalyLoaded.position.x = 0;
+            dynamicalyLoaded.position.y = 0.25;
+            dynamicalyLoaded.position.z = 0;
+
+            scene.add(dynamicalyLoaded);
+
+            const loader3 = new VRMLoader();
+            const url = newValue.split(' ')[1];
+            console.log(url);
+
+            loader3.load( url, function ( vrm ) {
+
+                // VRMLoader doesn't support VRM Unlit extension yet so
+                // converting all materials to THREE.MeshBasicMaterial here as workaround so far.
+                vrm.scene.traverse( function ( object ) {
+
+                    if ( object.material ) {
+
+                        if ( Array.isArray( object.material ) ) {
+
+                            for ( let i = 0, il = object.material.length; i < il; i ++ ) {
+
+                                const material = new THREE.MeshBasicMaterial();
+                                THREE.Material.prototype.copy.call( material, object.material[ i ] );
+                                material.color.copy( object.material[ i ].color );
+                                material.map = object.material[ i ].map;
+                                object.material[ i ] = material;
+
+                            }
+
+                        } else {
+
+                            const material = new THREE.MeshBasicMaterial();
+                            THREE.Material.prototype.copy.call( material, object.material );
+                            material.color.copy( object.material.color );
+                            material.map = object.material.map;
+                            object.material = material;
+
+                        }
+
+                    }
+
+                } );
+
+                console.log(vrm.scene);
+
+                if(dynamicalyLoaded !== undefined)
+                    scene.remove(dynamicalyLoaded);
+
+                dynamicalyLoaded = vrm.scene;
+                scene.add( vrm.scene );
+
+            } );
+
+        });
+
     gui.add( parameters, 'scale', 0.0, 1.0, 0.1 ).onChange( onChange );
     gui.add( parameters, 'rotationX', 0.0, Math.PI * 2.0, Math.PI / 4.0 ).onChange( onChange );
     gui.add( parameters, 'rotationY', 0.0, Math.PI * 2.0, Math.PI / 4.0).onChange( onChange );
@@ -224,7 +247,7 @@ function init() {
     // gui.add( parameters, 'p', 1, 10, 1 ).onChange( onChange );
     // gui.add( parameters, 'q', 0, 10, 1 ).onChange( onChange );
     // gui.add( parameters, 'thickness', 0, 1 ).onChange( onThicknessChange );
-    gui.domElement.style.visibility = 'hidden';
+    // gui.domElement.style.visibility = 'hidden';
 
     const group = new InteractiveGroup( renderer, camera );
 
