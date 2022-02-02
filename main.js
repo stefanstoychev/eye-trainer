@@ -236,7 +236,7 @@ function init() {
                 dynamicalyLoaded.position.y = 0;
                 dynamicalyLoaded.position.z = -1;
 
-                dynamicalyLoaded.scale.set(1,1,1);
+                dynamicalyLoaded.scale.set(0.8,0.8,0.8);
 
 
 
