@@ -247,7 +247,7 @@ function init() {
     // gui.add( parameters, 'p', 1, 10, 1 ).onChange( onChange );
     // gui.add( parameters, 'q', 0, 10, 1 ).onChange( onChange );
     // gui.add( parameters, 'thickness', 0, 1 ).onChange( onThicknessChange );
-    // gui.domElement.style.visibility = 'hidden';
+    gui.domElement.style.visibility = 'hidden';
 
     const group = new InteractiveGroup( renderer, camera );
 
