@@ -37,7 +37,7 @@ var update_model = false;
 let dynamicalyLoaded;
 
 const parameters = {
-    model: "https://ipfs.io/ipfs/QmcmfjHuVia9s41UaXg7Kx1KG3qJ4kU9a74ckNq1T5FDxV",
+    model: "Adriana",
     scale: 0.6,
     rotationX: 0,
     rotationY: 0,
@@ -113,7 +113,6 @@ function init() {
 
     });
 
-
     // model
 
     //const geometry = new THREE.BoxGeometry(0.15, 0.15, 0.15);
@@ -165,10 +164,10 @@ function init() {
     const gui = new GUI( { width: 300 } );
     const barDirection =
         gui.add(parameters,'model',
-            ['Adriana.vrm https://ipfs.io/ipfs/QmcmfjHuVia9s41UaXg7Kx1KG3qJ4kU9a74ckNq1T5FDxV',
-                'Adam.vrm https://ipfs.io/ipfs/QmWyjegPNX5oYgvh2rTSCAPNddR69WPa4omg5oVLymsMBB',
-                'Sunshine.vrm https://ipfs.io/ipfs/QmYn7fji6Ztn5RmMqMz1AZTHL6qP8Gm2oiGBMG8VNGXUfM',
-                'Cloud.vrm https://ipfs.io/ipfs/QmebwZqpY6AR4Q2qjziLk2cpHeKFueue4S2tnkpo8hnrPH'])
+            {Adriana:'https://ipfs.io/ipfs/QmcmfjHuVia9s41UaXg7Kx1KG3qJ4kU9a74ckNq1T5FDxV',
+                Adam: 'https://ipfs.io/ipfs/QmWyjegPNX5oYgvh2rTSCAPNddR69WPa4omg5oVLymsMBB',
+                Sunshine: 'https://ipfs.io/ipfs/QmYn7fji6Ztn5RmMqMz1AZTHL6qP8Gm2oiGBMG8VNGXUfM',
+                Cloud: 'https://ipfs.io/ipfs/QmebwZqpY6AR4Q2qjziLk2cpHeKFueue4S2tnkpo8hnrPH'})
             .name('Model')
             .listen()
     barDirection.onChange(
@@ -188,10 +187,9 @@ function init() {
             scene.add(dynamicalyLoaded);
 
             const loader3 = new VRMLoader();
-            const url = newValue.split(' ')[1];
-            console.log(url);
+            console.log(newValue);
 
-            loader3.load( url, function ( vrm ) {
+            loader3.load( newValue, function ( vrm ) {
 
                 // VRMLoader doesn't support VRM Unlit extension yet so
                 // converting all materials to THREE.MeshBasicMaterial here as workaround so far.
@@ -247,7 +245,7 @@ function init() {
     // gui.add( parameters, 'p', 1, 10, 1 ).onChange( onChange );
     // gui.add( parameters, 'q', 0, 10, 1 ).onChange( onChange );
     // gui.add( parameters, 'thickness', 0, 1 ).onChange( onThicknessChange );
-    gui.domElement.style.visibility = 'hidden';
+    // gui.domElement.style.visibility = 'hidden';
 
     const group = new InteractiveGroup( renderer, camera );
 
