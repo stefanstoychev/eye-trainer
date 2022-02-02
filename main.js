@@ -229,6 +229,17 @@ function init() {
                     scene.remove(dynamicalyLoaded);
 
                 dynamicalyLoaded = vrm.scene;
+
+                dynamicalyLoaded.rotateY(Math.PI);
+
+                dynamicalyLoaded.position.x = 0;
+                dynamicalyLoaded.position.y = 0;
+                dynamicalyLoaded.position.z = -1;
+
+                dynamicalyLoaded.scale.set(0.6, 0.6, 0.6);
+
+
+
                 scene.add( vrm.scene );
 
             } );
